@@ -1,18 +1,25 @@
+-- BUNDOC, Noreen Louise C.
+-- Lecture Programming Assignment: VHDL
+-- CMSC 132 T-3L
+
+-- Library Statements
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
+-- Entity Definition
 entity t3l_bundoc_tb is
 end entity;
 
 architecture t3l_bundoc_tb of t3l_bundoc_tb is
-  signal alarm: std_logic;
-  signal IN_BUZZER: std_logic_vector(2 downto 0);
-  signal OUT_BUZZER: std_logic_vector(2 downto 0);
+  signal alarm: std_logic;      -- data output
+  signal IN_BUZZER: std_logic_vector(2 downto 0); -- state of 3 IN_BUZZER
+  signal OUT_BUZZER: std_logic_vector(2 downto 0); -- state of 3 OUT_BUZZER
+  -- Component Declaration
   component t3l_bundoc is
-    port( alarm: out std_logic;
-          IN_BUZZER: in std_logic_vector(2 downto 0);
-          OUT_BUZZER: in std_logic_vector(2 downto 0)
+    port( alarm: out std_logic;   -- data output
+          IN_BUZZER: in std_logic_vector(2 downto 0); -- state of 3 IN_BUZZER
+          OUT_BUZZER: in std_logic_vector(2 downto 0) -- state of 3 OUT_BUZZER
         );
   end component;
 
@@ -41,10 +48,11 @@ begin
       end if;
       wait for 10 ns;
 
+      -- Check if expected_alarm is the same to alarm
       assert(expected_alarm = alarm)
         report "ERROR: Expected_alarm " &
           std_logic'image(expected_alarm) & " /= alarm " & std_logic'image(alarm) & " at time " & time'image(now);
-
+      -- if not the same, increment error_count
       if((expected_alarm /= alarm))
         then error_count := error_count + 1;
       end if;
@@ -53,7 +61,7 @@ begin
 
     assert (error_count = 0)
       report "ERROR: There were " & integer'image(error_count) & " errors!";
-      if(error_count = 0)
+      if(error_count = 0) -- if there are no errors
         then report "Simulation completed with NO errors.";
       end if;
     wait;
