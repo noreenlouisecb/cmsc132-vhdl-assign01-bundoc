@@ -7,17 +7,17 @@ end entity;
 
 architecture t3l_bundoc_tb of t3l_bundoc_tb is
   signal alarm: std_logic;
-  signal buzzer_in: std_logic_vector(2 downto 0);
-  signal buzzer_out: std_logic_vector(2 downto 0);
+  signal IN_BUZZER: std_logic_vector(2 downto 0);
+  signal OUT_BUZZER: std_logic_vector(2 downto 0);
   component t3l_bundoc is
     port( alarm: out std_logic;
-          buzzer_in: in std_logic_vector(2 downto 0);
-          buzzer_out: in std_logic_vector(2 downto 0)
+          IN_BUZZER: in std_logic_vector(2 downto 0);
+          OUT_BUZZER: in std_logic_vector(2 downto 0)
         );
   end component;
 
 begin
-  uut: component t3l_bundoc port map(alarm, buzzer_in, buzzer_out);
+  uut: component t3l_bundoc port map(alarm, IN_BUZZER, OUT_BUZZER);
   main: process is
     variable temp: unsigned(5 downto 0);
     variable expected_alarm: std_logic;
@@ -29,12 +29,12 @@ begin
     for i in 0 to 63 loop
       temp := TO_UNSIGNED(i, 6);
       --assign each input a value from temp
-      buzzer_in(2) <= temp(5);
-      buzzer_in(1) <= temp(4);
-      buzzer_in(0) <= temp(3);
-      buzzer_out(2) <= temp(2);
-      buzzer_out(1) <= temp(1);
-      buzzer_out(0) <= temp(0);
+      IN_BUZZER(2) <= temp(5);
+      IN_BUZZER(1) <= temp(4);
+      IN_BUZZER(0) <= temp(3);
+      OUT_BUZZER(2) <= temp(2);
+      OUT_BUZZER(1) <= temp(1);
+      OUT_BUZZER(0) <= temp(0);
 
       if((i >=0 and i <= 8) or i = 16 or i = 24 or i = 32 or i = 40 or i = 48 or i = 56) then expected_alarm :='0';
       else expected_alarm := '1';
